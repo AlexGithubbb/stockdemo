@@ -34,7 +34,7 @@ class App extends Component {
   // }
 
   async fetchStock(company) {
-    const API_KEY = '80Y08N3U8HM50P20';
+    const API_KEY = process.env.API_KEY;
     const API_Call = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${company}&interval=1min&outputsize=compact&apikey=${API_KEY}`;
 
     // fetch the API
