@@ -56,7 +56,7 @@ class App extends Component {
   render() {
     const { name, price, high, low } = this.state;
     return (
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <div className='App'>
           <Navbar />
           <h1 className='header'>Stock Market</h1>
