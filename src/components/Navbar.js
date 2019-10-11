@@ -1,20 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = props => {
   return (
-    <ul className='navbar'>
-      <li>
-        <Link className='nav_item' to='/'>
-          Home
-        </Link>
-      </li>
-      <li>
-        <Link className='nav_item' to='/about'>
-          About
-        </Link>
-      </li>
-    </ul>
+    <nav>
+      <div className='nav-wrapper'>
+        <a href='#' className='brand-logo'>
+          <i className='fas fa-hand-holding-usd fa-1x'></i>
+        </a>
+        <ul id='nav-mobile' className='right hide-on-med-and-down'>
+          <li>
+            <Link
+              to='/'
+              onClick={() => {
+                props.fetchCompany();
+              }}
+            >
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link to='/about'>About</Link>
+          </li>
+        </ul>
+      </div>
+    </nav>
   );
 };
 

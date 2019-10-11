@@ -1,9 +1,30 @@
 import React from 'react';
+import Spinner from './Spinner';
 
-const Company = ({ name, high, low }) => {
+const Company = ({ match, stocks }) => {
+  if (stocks[0] === null && stocks[1] === null) {
+    return <Spinner />;
+  }
+  const name = match.params.name;
+
+  // filter out the target company information
+  const data = stocks.filter(
+    stock => stock['Meta Data']['2. Symbol'] === name
+  )[0];
+  // console.log(data);
+
+  const high =
+    data['Time Series (1min)'][Object.keys(data['Time Series (1min)'])[0]][
+      '2. high'
+    ];
+  const low =
+    data['Time Series (1min)'][Object.keys(data['Time Series (1min)'])[0]][
+      '3. low'
+    ];
+
   return (
-    <div className='dashboard'>
-      <table border='1'>
+    <div className='container'>
+      <table className='centered'>
         <thead>
           <tr>
             <th>Company</th>
@@ -14,13 +35,8 @@ const Company = ({ name, high, low }) => {
         <tbody>
           <tr>
             <td>{name}</td>
-            <td>{high}</td>
-            <td>{low}</td>
-          </tr>
-          <tr>
-            <td>IBM</td>
-            <td>$130</td>
-            <td>$100</td>
+            <td>USD: {parseFloat(high).toFixed(2)}</td>
+            <td>USD: {parseFloat(low).toFixed(2)}</td>
           </tr>
         </tbody>
       </table>

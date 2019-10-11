@@ -5,10 +5,13 @@ const DashItem = ({ name, price }) => {
     <Fragment>
       <tr>
         <td>{name}</td>
-        <td>{price}</td>
+        <td>USD: {parseFloat(price).toFixed(2)}</td>
         <td>
           <button>
-            <Link to={`/${name}`} className='info_btn'>
+            <Link
+              to={`/${name}`}
+              className='waves-effect waves-light light-blue darken-1 btn'
+            >
               Info
             </Link>
           </button>

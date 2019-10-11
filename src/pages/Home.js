@@ -1,10 +1,10 @@
 import React from 'react';
 import Dashboard from '../components/Dashboard';
 
-const Home = ({ name, price, low, high }) => {
+const Home = props => {
   return (
     <div>
-      <Dashboard name={name} price={price} low={low} high={high} />
+      <Dashboard {...props} />
     </div>
   );
 };

@@ -3,8 +3,8 @@ import React from 'react';
 const About = () => {
   return (
     <div className='aboutInfo'>
-      <h3>Stock Market Assistant</h3>
-      <h2>Version 1.0</h2>
+      <h5>Stock Market Assistant</h5>
+      <p>Version: 0.0.1 </p>
     </div>
   );
 };

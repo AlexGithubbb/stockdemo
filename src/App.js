@@ -7,74 +7,62 @@ import Home from './pages/Home';
 import Company from './components/Company';
 class App extends Component {
   state = {
-    name: '',
-    price: '',
-    low: '',
-    high: ''
+    stock1: null,
+    stock2: null,
+    isLoading: true
   };
 
+  // create companies array
+  companies = ['MSFT', 'IBM'];
+  // initial fetch
   componentDidMount() {
-    this.fetchStock('MSFT');
-    setInterval(() => {
-      this.fetchStock('MSFT');
-    }, 60000);
+    this.fetchCompany(this.companies);
   }
 
-  companies = ['MSFT', 'IBM', ''];
-
-  // map through companies and run the api call
-
-  // componentDidMount() {
-  //   this.companies.map(company => {
-  //     this.fetchStock(company);
-  //   })
-  //   setInterval(() => {
-  //     this.fetchStock('MSFT');
-  //   }, 600000);
-  // }
-
-  async fetchStock(company) {
+  // fetch api function
+  fetchCompany(comps) {
+    console.log('fetch api && get data');
     const API_KEY = process.env.API_KEY;
-    const API_Call = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${company}&interval=1min&outputsize=compact&apikey=${API_KEY}`;
-
-    // fetch the API
-    const response = await fetch(API_Call);
-    const data = await response.json();
-    for (var key in data['Time Series (1min)']) {
-      const array = new Array();
-      array.push(key);
-      const name = data['Meta Data']['2. Symbol'];
-      const price = data['Time Series (1min)'][array[0]]['1. open'];
-      const high = data['Time Series (1min)'][array[0]]['2. high'];
-      const low = data['Time Series (1min)'][array[0]]['3. low'];
-      this.setState({ name });
-      this.setState({ price });
-      this.setState({ high });
-      this.setState({ low });
-    }
+    const API_Call1 = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${
+      comps[0]
+    }&interval=1min&outputsize=compact&apikey=${API_KEY}`;
+    const API_Call2 = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${
+      comps[1]
+    }&interval=1min&outputsize=compact&apikey=${API_KEY}`;
+    // use Promise.all to fetch multiple api
+    Promise.all([fetch(API_Call1), fetch(API_Call2)])
+      .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
+      .then(([data1, data2]) =>
+        this.setState({
+          stock1: data1,
+          stock2: data2,
+          isLoading: false
+        })
+      );
   }
+
   render() {
-    const { name, price, high, low } = this.state;
+    const { stock1, stock2, isLoading } = this.state;
+    const stocks = [stock1, stock2];
     return (
       <Router basename={process.env.PUBLIC_URL}>
         <div className='App'>
-          <Navbar />
-          <h1 className='header'>Stock Market</h1>
+          <Navbar fetchCompany={() => this.fetchCompany(this.companies)} />
+          <h2 className='header'>Stock Market</h2>
         </div>
         <Switch>
           <Route
             path='/'
             exact
-            render={props => (
-              <Home name={name} price={price} high={high} low={low} />
-            )}
+            render={props => <Home stocks={stocks} isLoading={isLoading} />}
           />
           <Route path='/about' exact component={About} />
           <Route
-            path='/:cpnid'
+            path='/:name'
             exact
             render={props => (
-              <Company name={name} price={price} high={high} low={low} />
+              // <Company {...props} getInfo={() => this.getInfo()} />
+              <Company {...props} stocks={stocks} isLoading={isLoading} />
             )}
           />
         </Switch>
