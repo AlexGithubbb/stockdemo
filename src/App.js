@@ -62,7 +62,8 @@ class App extends Component {
             exact
             render={props => (
               // <Company {...props} getInfo={() => this.getInfo()} />
-              <Company {...props} stocks={stocks} isLoading={isLoading} />
+              // <Company {...props} stocks={stocks} />
+              <Company name={props.match.params.name} stocks={stocks} />
             )}
           />
         </Switch>
@@ -72,3 +73,7 @@ class App extends Component {
 }
 
 export default App;
+
+export const add = (x, y) => {
+  return x + y;
+};

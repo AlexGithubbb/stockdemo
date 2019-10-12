@@ -1,14 +1,15 @@
 import React from 'react';
 import DashItem from './DashItem';
 import Spinner from './Spinner';
+import Waiting from './Waiting';
+import PropTypes from 'prop-types';
 
 const Dashboard = ({ stocks, isLoading }) => {
-  if (
-    isLoading ||
-    typeof stocks[0] === 'undefined' ||
-    typeof stocks[1] === 'undefined'
-  ) {
+  if (isLoading) {
     return <Spinner />;
+  } else if (stocks[0]['Note'] || stocks[1]['Note']) {
+    //Cannot read property '0' of undefined
+    return <Waiting />;
   }
 
   const items = stocks.map(stock => {
@@ -40,6 +41,11 @@ const Dashboard = ({ stocks, isLoading }) => {
       </table>
     </div>
   );
+};
+
+Dashboard.propTypes = {
+  stocks: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired
 };
 
 export default Dashboard;

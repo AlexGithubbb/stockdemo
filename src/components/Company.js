@@ -1,14 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Spinner from './Spinner';
 
-const Company = ({ match, stocks, isLoading }) => {
-  if (isLoading) {
+const Company = ({ name, stocks }) => {
+  // const name = match.params.name;
+  if (stocks[0] === null && stocks[1] === null) {
     return <Spinner />;
   }
-  const name = match.params.name;
-
   // filter out the target company information
   const data = stocks.filter(
+    // TypeError: Cannot read property 'filter' of undefined
     stock => stock['Meta Data']['2. Symbol'] === name
   )[0];
   // console.log(data);
@@ -23,7 +24,7 @@ const Company = ({ match, stocks, isLoading }) => {
     ];
 
   return (
-    <div className='container'>
+    <div className='container' data-test='CompanyComponent'>
       <table className='centered'>
         <thead>
           <tr>
@@ -34,7 +35,7 @@ const Company = ({ match, stocks, isLoading }) => {
         </thead>
         <tbody>
           <tr>
-            <td>{name}</td>
+            <td test-data='name'>{name}</td>
             <td>USD: {parseFloat(high).toFixed(2)}</td>
             <td>USD: {parseFloat(low).toFixed(2)}</td>
           </tr>
@@ -42,6 +43,11 @@ const Company = ({ match, stocks, isLoading }) => {
       </table>
     </div>
   );
+};
+
+Company.propTypes = {
+  name: PropTypes.string.isRequired,
+  stocks: PropTypes.array.isRequired
 };
 
 export default Company;
