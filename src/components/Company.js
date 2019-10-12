@@ -1,8 +1,8 @@
 import React from 'react';
 import Spinner from './Spinner';
 
-const Company = ({ match, stocks }) => {
-  if (stocks[0] === null && stocks[1] === null) {
+const Company = ({ match, stocks, isLoading }) => {
+  if (isLoading) {
     return <Spinner />;
   }
   const name = match.params.name;
