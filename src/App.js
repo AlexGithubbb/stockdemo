@@ -14,10 +14,12 @@ class App extends Component {
 
   // create companies array
   companies = ['MSFT', 'IBM'];
+
   // initial fetch
-  componentDidMount() {
-    this.fetchCompany(this.companies);
-  }
+  // componentDidMount() {
+  //   this.fetchCompany(this.companies);
+  //   console.log('initial mount in App.js');
+  // }
 
   // fetch api function
   fetchCompany(comps) {
@@ -47,22 +49,26 @@ class App extends Component {
     return (
       <Router basename={process.env.PUBLIC_URL}>
         <div className='App'>
-          <Navbar fetchCompany={() => this.fetchCompany(this.companies)} />
+          <Navbar />
           <h2 className='header'>Stock Market</h2>
         </div>
         <Switch>
           <Route
             path='/'
             exact
-            render={props => <Home stocks={stocks} isLoading={isLoading} />}
+            render={props => (
+              <Home
+                stocks={stocks}
+                isLoading={isLoading}
+                fetchCompany={() => this.fetchCompany(this.companies)}
+              />
+            )}
           />
           <Route path='/about' exact component={About} />
           <Route
             path='/:name'
             exact
             render={props => (
-              // <Company {...props} getInfo={() => this.getInfo()} />
-              // <Company {...props} stocks={stocks} />
               <Company name={props.match.params.name} stocks={stocks} />
             )}
           />
@@ -73,7 +79,3 @@ class App extends Component {
 }
 
 export default App;
-
-export const add = (x, y) => {
-  return x + y;
-};

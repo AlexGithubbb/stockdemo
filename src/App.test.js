@@ -7,8 +7,3 @@ it('renders without crashing', () => {
   ReactDOM.render(<App />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
-
-test('should be 3', () => {
-  const value = add(1, 2);
-  expect(value).toBe(3);
-});

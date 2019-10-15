@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import DashItem from './DashItem';
 import Spinner from './Spinner';
 import Waiting from './Waiting';
 import PropTypes from 'prop-types';
 
-const Dashboard = ({ stocks, isLoading }) => {
+const Dashboard = ({ stocks, isLoading, fetchCompany }) => {
+  useEffect(() => {
+    fetchCompany();
+    console.log('component did mount in Dashboard');
+  }, []);
+
   if (isLoading) {
     return <Spinner />;
   } else if (stocks[0]['Note'] || stocks[1]['Note']) {
-    //Cannot read property '0' of undefined
+    // exceed fetch limitation (5 times/min)
     return <Waiting />;
   }
 

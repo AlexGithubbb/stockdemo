@@ -9,7 +9,6 @@ const Company = ({ name, stocks }) => {
   }
   // filter out the target company information
   const data = stocks.filter(
-    // TypeError: Cannot read property 'filter' of undefined
     stock => stock['Meta Data']['2. Symbol'] === name
   )[0];
   // console.log(data);

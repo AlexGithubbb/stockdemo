@@ -12,9 +12,9 @@ const Navbar = props => {
           <li>
             <Link
               to='/'
-              onClick={() => {
-                props.fetchCompany();
-              }}
+              // onClick={() => {
+              //   props.fetchCompany();
+              // }}
             >
               Home
             </Link>
